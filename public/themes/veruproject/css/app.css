@@ -1,0 +1,275 @@
+:root {
+  --vq-bg: #0a0e1a;
+  --vq-accent: #00d4ff;
+  --vq-accent-2: #7b2ff7;
+  --vq-text: #e8edf7;
+  --vq-muted: #8b93a7;
+  --vq-font-head: 'Orbitron', 'Inter', sans-serif;
+  --vq-font-body: 'Inter', system-ui, sans-serif;
+}
+
+body {
+  background: linear-gradient(160deg, #0d1330 0%, #0a0e1a 45%, #120a2e 100%);
+  color: var(--vq-text);
+  font-family: var(--vq-font-body);
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, .vq-loader__pct {
+  font-family: var(--vq-font-head);
+  letter-spacing: .02em;
+}
+
+.vq-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: linear-gradient(160deg, #0d1330 0%, #0a0e1a 45%, #120a2e 100%);
+}
+
+.vq-bg video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: .35;
+}
+
+.vq-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10,14,26,.55) 0%, rgba(10,14,26,.82) 100%);
+}
+
+.vq-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: rgba(8,11,22,.92);
+  backdrop-filter: blur(12px);
+  transition: opacity .35s ease;
+}
+
+.vq-loader--done {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.vq-loader__ring {
+  width: 120px;
+  height: 120px;
+  transform: rotate(-90deg);
+}
+
+.vq-loader__ring circle {
+  fill: none;
+  stroke-width: 4;
+}
+
+.vq-loader__ring .vq-loader__track {
+  stroke: rgba(255,255,255,.12);
+}
+
+.vq-loader__ring .vq-loader__bar {
+  stroke: var(--vq-accent);
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 6px var(--vq-accent));
+  transition: stroke-dashoffset .1s linear;
+}
+
+.vq-loader__logo {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  position: absolute;
+  animation: vq-pop .6s cubic-bezier(.2,.9,.3,1.4) both;
+}
+
+@keyframes vq-pop {
+  from { transform: scale(.3); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.vq-loader__pct {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--vq-text);
+  text-shadow: 0 0 12px var(--vq-accent);
+}
+
+.vq-credit {
+  position: fixed;
+  right: 18px;
+  bottom: 12px;
+  z-index: 990;
+  font-size: 12px;
+  color: var(--vq-muted);
+  opacity: .75;
+  pointer-events: none;
+}
+
+.vq-credit a {
+  color: var(--vq-accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   Client-area (React SPA) top-nav -> left sidebar.
+   Gated by body.vq-spa-sidebar, set by app.js ONLY when the stock nav
+   structure is found. If a panel update changes those classes the gate
+   fails, this block stops applying, and the default top nav returns.
+   Best-effort; targets the static Tailwind classes from NavigationBar.tsx.
+   ========================================================================== */
+body.vq-spa-sidebar #app {
+  margin-left: 232px;
+}
+
+body.vq-spa-sidebar #app > .w-full.bg-neutral-900.shadow-md.overflow-x-auto {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 232px;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+body.vq-spa-sidebar #app > .w-full.bg-neutral-900.shadow-md.overflow-x-auto > .mx-auto {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  height: 100%;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+body.vq-spa-sidebar #app #logo {
+  flex: 0 0 auto;
+  width: 100%;
+  padding: 14px 4px;
+}
+
+body.vq-spa-sidebar #app #logo a {
+  display: block;
+  font-family: var(--vq-font-head);
+}
+
+body.vq-spa-sidebar #app .flex.h-full.items-center.justify-center {
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
+  height: auto;
+  padding-top: 8px;
+}
+
+body.vq-spa-sidebar #app .navigation-link,
+body.vq-spa-sidebar #app .flex.h-full.items-center.justify-center > a,
+body.vq-spa-sidebar #app .flex.h-full.items-center.justify-center > button {
+  justify-content: flex-start;
+  width: 100%;
+  padding: 12px 18px !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+body.vq-spa-sidebar #app .navigation-link:hover,
+body.vq-spa-sidebar #app .flex.h-full.items-center.justify-center > a:hover,
+body.vq-spa-sidebar #app .flex.h-full.items-center.justify-center > button:hover {
+  background: rgba(0, 212, 255, .10) !important;
+  color: #e8edf7 !important;
+}
+
+@media (max-width: 992px) {
+  body.vq-spa-sidebar #app {
+    margin-left: 0;
+  }
+
+  body.vq-spa-sidebar #app > .w-full.bg-neutral-900.shadow-md.overflow-x-auto {
+    transform: translateX(-100%);
+  }
+}
+
+/* ==========================================================================
+   Admin area (AdminLTE) futuristic restyle. Only colors/glass on top of the
+   stock adminlte CSS — layout classes are left intact.
+   ========================================================================== */
+.skin-blue .main-header .navbar,
+.skin-blue .main-header .logo {
+  background: rgba(13, 18, 38, .92);
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+}
+
+.skin-blue .main-header .logo:hover,
+.skin-blue .main-header .navbar .sidebar-toggle:hover {
+  background: rgba(0, 212, 255, .12);
+}
+
+.skin-blue .main-sidebar,
+.skin-blue .left-side {
+  background: rgba(11, 15, 30, .95);
+}
+
+.skin-blue .sidebar-menu > li > a {
+  color: #8b93a7;
+  border-left: 3px solid transparent;
+}
+
+.skin-blue .sidebar-menu > li > a:hover,
+.skin-blue .sidebar-menu > li.active > a {
+  color: #e8edf7;
+  background: rgba(0, 212, 255, .10);
+  border-left-color: #00d4ff;
+}
+
+.skin-blue .sidebar-menu > li.header {
+  color: #00d4ff;
+  background: transparent;
+  letter-spacing: .08em;
+}
+
+.content-wrapper {
+  background: transparent !important;
+}
+
+.box,
+.small-box,
+.callout,
+.panel {
+  background: rgba(13, 18, 38, .78) !important;
+  border: 1px solid rgba(255, 255, 255, .07) !important;
+  border-radius: 12px !important;
+  color: #e8edf7;
+}
+
+.box-header {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, .07) !important;
+  color: #e8edf7;
+}
+
+table.table > thead > tr > th,
+table.table > tbody > tr > td {
+  border-color: rgba(255, 255, 255, .07);
+  color: #c9d2e3;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background: rgba(255, 255, 255, .02);
+}
+
+.main-footer {
+  background: rgba(11, 15, 30, .95) !important;
+  border-top: 1px solid rgba(255, 255, 255, .06);
+  color: #8b93a7;
+}
